@@ -16,14 +16,11 @@
   --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh}
-
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:52px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .logo{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent)}
 .logo span{color:var(--text-dim);font-weight:400}
 .ts{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
-
 .wrap{max-width:1000px;margin:0 auto;padding:28px 20px}
-
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
 .panel-label{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text-dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
@@ -31,8 +28,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .field input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:var(--mono);font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
 .field input:focus{border-color:var(--accent)}
 .field input::placeholder{color:var(--text-dim)}
-
-.btn-row{display:flex;gap:8px;align-items:center}
+.btn-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .btn{border:none;border-radius:7px;padding:10px 22px;font-family:var(--mono);font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s,transform .1s;letter-spacing:.04em}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-primary:hover{opacity:.85}
@@ -40,73 +36,61 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .btn-ghost{background:var(--surface2);color:var(--text-dim);border:1px solid var(--border)}
 .btn-ghost:hover{color:var(--text)}
-
 .spinner{width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
 .loading .spinner{display:block}
 .loading .lbl{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 .progress{height:2px;background:var(--border);border-radius:2px;margin-top:12px;overflow:hidden;display:none}
 .progress.on{display:block}
 .pbar{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width .3s}
-
-.notice{border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;margin-bottom:14px;display:none}
+.notice{border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.7;margin-bottom:14px;display:none}
 .notice.on{display:block}
 .notice.warn{background:var(--yellow-bg);border:1px solid rgba(210,153,34,.3);color:var(--yellow)}
 .notice.err{background:var(--red-bg);border:1px solid rgba(248,81,73,.3);color:var(--red)}
 .notice.ok{background:var(--green-bg);border:1px solid rgba(63,185,80,.3);color:var(--green)}
-.notice strong{font-weight:600}
-
+.notice.info{background:var(--accent-dim);border:1px solid rgba(47,129,247,.3);color:#7ab8f5}
+.notice strong{font-weight:600;display:block;margin-bottom:2px}
+.notice code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;font-family:var(--mono);font-size:12px}
 .cards{display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
 .cards.on{display:grid}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px}
 .card-lbl{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .card-val{font-family:var(--mono);font-size:28px;font-weight:600;line-height:1}
 .c-text{color:var(--text)}.c-green{color:var(--green)}.c-yellow{color:var(--yellow)}.c-red{color:var(--red)}
-
 .tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:none}
 .tbl-wrap.on{display:block}
-.tbl-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.tbl-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
 .tbl-title{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
 .filters{display:flex;gap:6px}
 .fbtn{background:none;border:1px solid var(--border);border-radius:5px;color:var(--text-dim);font-family:var(--mono);font-size:10px;padding:3px 10px;cursor:pointer;transition:all .15s}
 .fbtn:hover,.fbtn.active{border-color:var(--accent);color:var(--text);background:var(--accent-dim)}
-
 table{width:100%;border-collapse:collapse}
 thead th{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);padding:9px 16px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
 tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
 tbody tr:last-child{border-bottom:none}
 tbody tr:hover{background:var(--surface2)}
 tbody td{padding:11px 16px;font-family:var(--mono);font-size:12px;white-space:nowrap}
-.td-art{color:var(--text);font-weight:500}
-.td-wh{color:var(--text-dim);font-size:11px;max-width:220px;overflow:hidden;text-overflow:ellipsis}
-
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 9px;border-radius:20px;font-weight:500;font-family:var(--mono)}
 .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
 .badge.ok{background:var(--green-bg);color:var(--green)}
 .badge.warn{background:var(--yellow-bg);color:var(--yellow)}
 .badge.empty{background:var(--red-bg);color:var(--red)}
-
 .empty-state{text-align:center;padding:52px 20px}
 .empty-icon{font-size:34px;margin-bottom:10px}
 .empty-title{font-size:15px;font-weight:500;margin-bottom:5px}
 .empty-sub{color:var(--text-dim);font-size:13px;line-height:1.6}
-
-@media(max-width:600px){
-  .fields{grid-template-columns:1fr}
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .topbar{padding:0 14px}
-  .wrap{padding:16px 12px}
-}
+.debug-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:14px;display:none}
+.debug-box.on{display:block}
+.debug-title{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.debug-pre{font-family:var(--mono);font-size:11px;color:var(--text-dim);white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto}
+@media(max-width:600px){.fields{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.topbar{padding:0 14px}.wrap{padding:16px 12px}}
 </style>
 </head>
 <body>
-
 <div class="topbar">
   <div class="logo">ФБО <span>/ Ozon Seller</span></div>
   <div class="ts" id="ts">—</div>
 </div>
-
 <div class="wrap">
 
   <div class="panel">
@@ -127,6 +111,7 @@ tbody td{padding:11px 16px;font-family:var(--mono);font-size:12px;white-space:no
         <span class="lbl">▶&nbsp; Получить остатки</span>
       </button>
       <button class="btn btn-ghost" onclick="clearKeys()">Очистить ключи</button>
+      <button class="btn btn-ghost" id="btnDebug" onclick="toggleDebug()">🔍 Диагностика</button>
     </div>
     <div class="progress" id="prog"><div class="pbar" id="pbar"></div></div>
   </div>
@@ -134,12 +119,18 @@ tbody td{padding:11px 16px;font-family:var(--mono);font-size:12px;white-space:no
   <div class="notice warn" id="nWarn"></div>
   <div class="notice err"  id="nErr"></div>
   <div class="notice ok"   id="nOk"></div>
+  <div class="notice info" id="nInfo"></div>
+
+  <div class="debug-box" id="debugBox">
+    <div class="debug-title">Диагностика — ответ API</div>
+    <div class="debug-pre" id="debugPre">Нажмите «Получить остатки» чтобы увидеть ответ сервера</div>
+  </div>
 
   <div class="cards" id="cards">
-    <div class="card"><div class="card-lbl">Всего позиций</div><div class="card-val c-text"   id="cTotal">—</div></div>
-    <div class="card"><div class="card-lbl">В норме</div>       <div class="card-val c-green"  id="cOk">—</div></div>
+    <div class="card"><div class="card-lbl">Всего позиций</div><div class="card-val c-text" id="cTotal">—</div></div>
+    <div class="card"><div class="card-lbl">В норме</div><div class="card-val c-green" id="cOk">—</div></div>
     <div class="card"><div class="card-lbl">Заканчивается</div><div class="card-val c-yellow" id="cWarn">—</div></div>
-    <div class="card"><div class="card-lbl">Нет остатка</div>  <div class="card-val c-red"    id="cBad">—</div></div>
+    <div class="card"><div class="card-lbl">Нет остатка</div><div class="card-val c-red" id="cBad">—</div></div>
   </div>
 
   <div class="tbl-wrap" id="tblWrap">
@@ -161,10 +152,9 @@ tbody td{padding:11px 16px;font-family:var(--mono);font-size:12px;white-space:no
   </div>
 
 </div>
-
 <script>
 const MIN_STOCK = 12;
-let allRows = [], activeFilter = 'all';
+let allRows = [], activeFilter = 'all', debugVisible = false;
 
 window.addEventListener('DOMContentLoaded', () => {
   try {
@@ -172,25 +162,34 @@ window.addEventListener('DOMContentLoaded', () => {
     if(c) document.getElementById('cid').value = c;
     if(a) document.getElementById('akey').value = a;
   } catch(e){}
-  tick();
-  setInterval(tick, 1000);
+  tick(); setInterval(tick, 1000);
 });
 
 function tick(){
   const n = new Date();
   document.getElementById('ts').textContent =
-    n.toLocaleDateString('ru-RU') + '  ' +
+    n.toLocaleDateString('ru-RU')+'  '+
     n.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
 
+function toggleDebug(){
+  debugVisible = !debugVisible;
+  document.getElementById('debugBox').classList.toggle('on', debugVisible);
+}
+
+function setDebug(text){
+  document.getElementById('debugPre').textContent = text;
+  if(debugVisible) document.getElementById('debugBox').classList.add('on');
+}
+
 function notice(type, html){
-  ['Warn','Err','Ok'].forEach(t=>{
+  ['Warn','Err','Ok','Info'].forEach(t=>{
     const el = document.getElementById('n'+t);
     if(t.toLowerCase()===type){ el.innerHTML=html; el.classList.add('on'); }
     else el.classList.remove('on');
   });
 }
-function clearNotices(){ ['Warn','Err','Ok'].forEach(t=>document.getElementById('n'+t).classList.remove('on')); }
+function clearNotices(){ ['Warn','Err','Ok','Info'].forEach(t=>document.getElementById('n'+t).classList.remove('on')); }
 
 function prog(pct){
   const el=document.getElementById('prog'), bar=document.getElementById('pbar');
@@ -199,73 +198,123 @@ function prog(pct){
 }
 
 async function doFetch(){
-  const cid=document.getElementById('cid').value.trim();
-  const akey=document.getElementById('akey').value.trim();
+  const cid  = document.getElementById('cid').value.trim();
+  const akey = document.getElementById('akey').value.trim();
   if(!cid||!akey){ notice('warn','<strong>Заполните оба поля:</strong> Client-ID и API-Key'); return; }
   try{ localStorage.setItem('oz_cid',cid); localStorage.setItem('oz_ak',akey); }catch(e){}
 
-  const btn=document.getElementById('btnFetch');
+  const btn = document.getElementById('btnFetch');
   btn.disabled=true; btn.classList.add('loading');
   clearNotices();
   document.getElementById('cards').classList.remove('on');
   document.getElementById('tblWrap').classList.remove('on');
-  prog(10);
+  prog(5);
 
-  try{
-    const rows = await loadStocks(cid, akey);
-    allRows = rows;
+  try {
+    notice('info','⏳ Шаг 1/2 — получаю список товаров...');
+    const productIds = await getProductIds(cid, akey);
+    prog(40);
+
+    if(productIds.length === 0){
+      prog(null);
+      notice('warn','<strong>Товары не найдены.</strong> В аккаунте нет активных товаров.');
+      return;
+    }
+
+    notice('info','⏳ Шаг 2/2 — получаю остатки для '+productIds.length+' товаров...');
+    const rows = await getStocksByIds(cid, akey, productIds);
     prog(95);
+
+    allRows = rows;
     renderCards(rows);
     renderTable(rows);
     prog(null);
     document.getElementById('cards').classList.add('on');
     document.getElementById('tblWrap').classList.add('on');
-    if(rows.length===0){
-      notice('warn','API вернул пустой список. Проверьте, что у аккаунта есть товары на ФБО.');
+
+    if(rows.length === 0){
+      notice('warn',
+        '<strong>Товары найдены ('+productIds.length+' шт.), но остатков ФБО нет.</strong><br>'+
+        'Скорее всего ваши товары работают по схеме FBS — отгрузка со своего склада.<br>'+
+        'Напишите мне в чат, переделаю под FBS.'
+      );
     } else {
-      notice('ok','✅ Загружено. Всего позиций: <strong>'+rows.length+'</strong>');
+      notice('ok','✅ Готово! Позиций на складах ФБО: <strong>'+rows.length+'</strong>');
     }
-  } catch(e){
+
+  } catch(e) {
     prog(null);
-    const m=e.message||'';
-    if(m.includes('401')) notice('err','<strong>Ошибка 401 — неверные ключи.</strong> Проверьте Client-ID и API-Key в кабинете Ozon.');
-    else if(m.includes('403')) notice('err','<strong>Ошибка 403 — нет прав.</strong> Убедитесь, что у ключа есть доступ к складу и товарам.');
-    else if(m.includes('429')) notice('err','<strong>Ошибка 429 — слишком много запросов.</strong> Подождите минуту и нажмите снова.');
-    else if(m.includes('Failed to fetch')||m.includes('NetworkError')) notice('err','<strong>Ошибка сети.</strong> Проверьте интернет-соединение и попробуйте снова.');
-    else notice('err','<strong>Ошибка:</strong> '+esc(m));
-  } finally{
+    const m = e.message||'';
+    setDebug(m);
+    document.getElementById('debugBox').classList.add('on');
+
+    if(m.includes('401')) notice('err',
+      '<strong>Ошибка 401 — ключи не подходят.</strong><br>'+
+      'Client-ID — только цифры (например: <code>123456</code>)<br>'+
+      'API-Key — длинная строка с дефисами из кабинета Ozon'
+    );
+    else if(m.includes('403')) notice('err',
+      '<strong>Ошибка 403 — недостаточно прав.</strong><br>'+
+      'Создайте ключ с ролью <code>Admin</code> в кабинете: Настройки → Seller API'
+    );
+    else if(m.includes('429')) notice('err','<strong>429 — слишком много запросов.</strong> Подождите минуту и повторите.');
+    else if(m.includes('Failed to fetch')||m.includes('Network')) notice('err','<strong>Ошибка сети.</strong> Проверьте интернет и попробуйте снова.');
+    else notice('err',
+      '<strong>Ошибка:</strong> '+esc(m.slice(0,200))+'<br>'+
+      'Нажмите 🔍 Диагностика, скопируйте текст и пришлите в чат.'
+    );
+  } finally {
     btn.disabled=false; btn.classList.remove('loading');
   }
 }
 
-async function loadStocks(cid, akey){
+async function getProductIds(cid, akey){
   const headers={'Client-Id':cid,'Api-Key':akey,'Content-Type':'application/json'};
-  let items=[], lastId='', hasMore=true;
-
+  let ids=[], lastId='', hasMore=true;
   while(hasMore){
+    const resp = await fetch('https://api-seller.ozon.ru/v2/product/list',{
+      method:'POST', headers,
+      body: JSON.stringify({filter:{visibility:'ALL'}, last_id:lastId, limit:1000})
+    });
+    const raw = await resp.text();
+    setDebug('[/v2/product/list] HTTP '+resp.status+'\n'+raw.slice(0,800));
+    if(!resp.ok) throw new Error(resp.status+' '+raw.slice(0,300));
+    const data = JSON.parse(raw);
+    const items = data?.result?.items||[];
+    ids = ids.concat(items.map(i=>i.product_id).filter(Boolean));
+    lastId = data?.result?.last_id||'';
+    hasMore = items.length===1000 && !!lastId;
+    prog(5+Math.min(30, ids.length/5));
+  }
+  return ids;
+}
+
+async function getStocksByIds(cid, akey, allIds){
+  const headers={'Client-Id':cid,'Api-Key':akey,'Content-Type':'application/json'};
+  const rows=[];
+  const total=allIds.length;
+  for(let i=0;i<total;i+=100){
+    const batch=allIds.slice(i,i+100);
     const resp = await fetch('https://api-seller.ozon.ru/v3/product/info/stocks',{
       method:'POST', headers,
-      body:JSON.stringify({filter:{visibility:'ALL'}, last_id:lastId, limit:100})
+      body: JSON.stringify({filter:{product_id:batch, visibility:'ALL'}, last_id:'', limit:100})
     });
-    if(!resp.ok){
-      const txt=await resp.text().catch(()=>'');
-      throw new Error(resp.status+' '+txt.slice(0,200));
+    const raw = await resp.text();
+    if(i===0) setDebug('[/v3/product/info/stocks] HTTP '+resp.status+'\n'+raw.slice(0,800));
+    if(!resp.ok) throw new Error(resp.status+' '+raw.slice(0,300));
+    const data=JSON.parse(raw);
+    for(const item of (data?.result?.items||[])){
+      for(const s of (item.stocks||[])){
+        if(s.type!=='fbo') continue;
+        rows.push({
+          offer_id:  item.offer_id||String(item.product_id||''),
+          warehouse: s.warehouse_name||'—',
+          present:   s.present||0,
+          reserved:  s.reserved||0,
+        });
+      }
     }
-    const data=await resp.json();
-    const batch=data?.result?.items||[];
-    items=items.concat(batch);
-    const total=data?.result?.total||0;
-    lastId=data?.result?.last_id||'';
-    hasMore=batch.length===100&&items.length<total&&!!lastId;
-    prog(Math.min(88, 10+items.length/Math.max(total,1)*78));
-  }
-
-  const rows=[];
-  for(const item of items){
-    for(const s of (item.stocks||[])){
-      if(s.type!=='fbo') continue;
-      rows.push({offer_id:item.offer_id||'', warehouse:s.warehouse_name||'—', present:s.present||0, reserved:s.reserved||0});
-    }
+    prog(40+Math.round((i+batch.length)/total*55));
   }
   rows.sort((a,b)=>{
     const sa=a.present===0?0:a.present<MIN_STOCK?1:2;
@@ -293,24 +342,28 @@ function renderTable(rows){
   const filtered=activeFilter==='all'?rows
     :activeFilter==='warn'?rows.filter(r=>r.present>0&&r.present<MIN_STOCK)
     :rows.filter(r=>r.present===0);
-
   document.getElementById('tblTitle').textContent=
     activeFilter==='all'?'Все позиции ('+filtered.length+')'
     :activeFilter==='warn'?'Заканчивается ('+filtered.length+')'
     :'Нет остатка ('+filtered.length+')';
-
   if(!filtered.length){
     document.getElementById('tblInner').innerHTML='<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-title">Таких позиций нет</div></div>';
     return;
   }
   let html='<table><thead><tr><th>Артикул</th><th>Склад</th><th>Доступно</th><th>Резерв</th><th>Статус</th></tr></thead><tbody>';
   for(const r of filtered){
-    const isEmpty=r.present===0, isWarn=r.present>0&&r.present<MIN_STOCK;
+    const isEmpty=r.present===0,isWarn=r.present>0&&r.present<MIN_STOCK;
     const cls=isEmpty?'empty':isWarn?'warn':'ok';
     const lbl=isEmpty?'Нет':isWarn?'Мало':'OK';
     const color=isEmpty?'var(--red)':isWarn?'var(--yellow)':'var(--green)';
     const wh=esc(r.warehouse);
-    html+=`<tr><td class="td-art">${esc(r.offer_id)}</td><td class="td-wh" title="${wh}">${wh.replace(/,.*$/,'')}</td><td style="font-family:var(--mono);font-weight:600;color:${color}">${r.present}</td><td style="font-family:var(--mono);color:var(--text-dim)">${r.reserved}</td><td><span class="badge ${cls}">${lbl}</span></td></tr>`;
+    html+=`<tr>
+      <td style="color:var(--text);font-weight:500;font-family:var(--mono)">${esc(r.offer_id)}</td>
+      <td style="color:var(--text-dim);font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis" title="${wh}">${wh.replace(/,.*/,'')}</td>
+      <td style="font-family:var(--mono);font-weight:600;color:${color}">${r.present}</td>
+      <td style="font-family:var(--mono);color:var(--text-dim)">${r.reserved}</td>
+      <td><span class="badge ${cls}">${lbl}</span></td>
+    </tr>`;
   }
   html+='</tbody></table>';
   document.getElementById('tblInner').innerHTML=html;
