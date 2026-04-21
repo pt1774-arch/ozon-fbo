@@ -752,9 +752,9 @@
                 last_id: lastId,
                 limit: 1000
             });
-            const items = data?.result?.items || [];
+            const items = data?.items || [];
             ids = ids.concat(items.map(i => i.product_id).filter(Boolean));
-            lastId = data?.result?.last_id || '';
+            lastId = data?.cursor || '';
             hasMore = items.length === 1000 && !!lastId;
             prog(5 + Math.min(30, ids.length / 5));
         }
@@ -766,7 +766,7 @@
         const total = allIds.length;
         for (let i = 0; i < total; i += 100) {
             const batch = allIds.slice(i, i + 100);
-            const data = await callProxy(proxy, cid, akey, '/v3/product/info/stocks',
+            const data = await callProxy(proxy, cid, akey, '/v4/product/info/stocks',
             {
                 filter: {
                     product_id: batch,
@@ -775,7 +775,7 @@
                 last_id: '',
                 limit: 100
             });
-            for (const item of (data?.result?.items || [])) {
+            for (const item of (data?.items || [])) {
                 for (const s of (item.stocks || [])) {
                     if (s.type !== 'fbo')
                         continue;
