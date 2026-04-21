@@ -1,362 +1,865 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Остатки ФБО — Ozon</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
-  --accent:#2f81f7;--accent-dim:rgba(47,129,247,0.12);
-  --text:#e6edf3;--text-dim:#7d8590;
-  --green:#3fb950;--yellow:#d29922;--red:#f85149;
-  --green-bg:rgba(63,185,80,0.1);--yellow-bg:rgba(210,153,34,0.1);--red-bg:rgba(248,81,73,0.1);
-  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
-}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:52px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.logo{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent)}
-.logo span{color:var(--text-dim);font-weight:400}
-.ts{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
-.wrap{max-width:1000px;margin:0 auto;padding:28px 20px}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
-.panel-label{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text-dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.field label{display:block;font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
-.field input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:var(--mono);font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
-.field input:focus{border-color:var(--accent)}
-.field input::placeholder{color:var(--text-dim)}
-.field input.wide{font-size:12px}
-.btn-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.btn{border:none;border-radius:7px;padding:10px 22px;font-family:var(--mono);font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s,transform .1s;letter-spacing:.04em}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{opacity:.85}
-.btn-primary:active{transform:scale(.97)}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn-ghost{background:var(--surface2);color:var(--text-dim);border:1px solid var(--border)}
-.btn-ghost:hover{color:var(--text)}
-.spinner{width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
-.loading .spinner{display:block}
-.loading .lbl{display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-.progress{height:2px;background:var(--border);border-radius:2px;margin-top:12px;overflow:hidden;display:none}
-.progress.on{display:block}
-.pbar{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width .3s}
-.notice{border-radius:8px;padding:13px 16px;font-size:13px;line-height:1.7;margin-bottom:14px;display:none}
-.notice.on{display:block}
-.notice.warn{background:var(--yellow-bg);border:1px solid rgba(210,153,34,.3);color:var(--yellow)}
-.notice.err{background:var(--red-bg);border:1px solid rgba(248,81,73,.3);color:var(--red)}
-.notice.ok{background:var(--green-bg);border:1px solid rgba(63,185,80,.3);color:var(--green)}
-.notice.info{background:var(--accent-dim);border:1px solid rgba(47,129,247,.3);color:#7ab8f5}
-.notice strong{font-weight:600}
-.notice code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;font-family:var(--mono);font-size:12px}
-.cards{display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.cards.on{display:grid}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px}
-.card-lbl{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.card-val{font-family:var(--mono);font-size:28px;font-weight:600;line-height:1}
-.c-text{color:var(--text)}.c-green{color:var(--green)}.c-yellow{color:var(--yellow)}.c-red{color:var(--red)}
-.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:none}
-.tbl-wrap.on{display:block}
-.tbl-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
-.tbl-title{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
-.filters{display:flex;gap:6px}
-.fbtn{background:none;border:1px solid var(--border);border-radius:5px;color:var(--text-dim);font-family:var(--mono);font-size:10px;padding:3px 10px;cursor:pointer;transition:all .15s}
-.fbtn:hover,.fbtn.active{border-color:var(--accent);color:var(--text);background:var(--accent-dim)}
-table{width:100%;border-collapse:collapse}
-thead th{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);padding:9px 16px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
-tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
-tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:var(--surface2)}
-tbody td{padding:11px 16px;font-family:var(--mono);font-size:12px;white-space:nowrap}
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 9px;border-radius:20px;font-weight:500;font-family:var(--mono)}
-.badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
-.badge.ok{background:var(--green-bg);color:var(--green)}
-.badge.warn{background:var(--yellow-bg);color:var(--yellow)}
-.badge.empty{background:var(--red-bg);color:var(--red)}
-.empty-state{text-align:center;padding:52px 20px}
-.empty-icon{font-size:34px;margin-bottom:10px}
-.empty-title{font-size:15px;font-weight:500;margin-bottom:5px}
-.empty-sub{color:var(--text-dim);font-size:13px;line-height:1.6}
-@media(max-width:600px){.fields{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.topbar{padding:0 14px}.wrap{padding:16px 12px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Остатки ФБО — Ozon</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0
+    }
+
+    :root {
+        --bg: #0d1117;
+        --surface: #161b22;
+        --surface2: #21262d;
+        --border: #30363d;
+        --accent: #2f81f7;
+        --accent-dim: rgba(47, 129, 247, 0.12);
+        --text: #e6edf3;
+        --text-dim: #7d8590;
+        --green: #3fb950;
+        --yellow: #d29922;
+        --red: #f85149;
+        --green-bg: rgba(63, 185, 80, 0.1);
+        --yellow-bg: rgba(210, 153, 34, 0.1);
+        --red-bg: rgba(248, 81, 73, 0.1);
+        --mono: 'IBM Plex Mono', monospace;
+        --sans: 'IBM Plex Sans', sans-serif;
+    }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 14px;
+        min-height: 100vh
+    }
+
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        height: 52px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100
+    }
+
+    .logo {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .08em;
+        color: var(--accent)
+    }
+
+    .logo span {
+        color: var(--text-dim);
+        font-weight: 400
+    }
+
+    .ts {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-dim)
+    }
+
+    .wrap {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 28px 20px
+    }
+
+    .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 16px
+    }
+
+    .panel-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--text-dim);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        margin-bottom: 14px
+    }
+
+    .fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px
+    }
+
+    .field label {
+        display: block;
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--text-dim);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 5px
+    }
+
+    .field input {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 9px 12px;
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text);
+        outline: none;
+        transition: border-color .15s
+    }
+
+    .field input:focus {
+        border-color: var(--accent)
+    }
+
+    .field input::placeholder {
+        color: var(--text-dim)
+    }
+
+    .field input.wide {
+        font-size: 12px
+    }
+
+    .btn-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap
+    }
+
+    .btn {
+        border: none;
+        border-radius: 7px;
+        padding: 10px 22px;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: opacity .15s, transform .1s;
+        letter-spacing: .04em
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: #fff
+    }
+
+    .btn-primary:hover {
+        opacity: .85
+    }
+
+    .btn-primary:active {
+        transform: scale(.97)
+    }
+
+    .btn-primary:disabled {
+        opacity: .4;
+        cursor: not-allowed;
+        transform: none
+    }
+
+    .btn-ghost {
+        background: var(--surface2);
+        color: var(--text-dim);
+        border: 1px solid var(--border)
+    }
+
+    .btn-ghost:hover {
+        color: var(--text)
+    }
+
+    .spinner {
+        width: 12px;
+        height: 12px;
+        border: 2px solid rgba(255, 255, 255, .3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin .7s linear infinite;
+        display: none
+    }
+
+    .loading .spinner {
+        display: block
+    }
+
+    .loading .lbl {
+        display: none
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg)
+        }
+    }
+
+    .progress {
+        height: 2px;
+        background: var(--border);
+        border-radius: 2px;
+        margin-top: 12px;
+        overflow: hidden;
+        display: none
+    }
+
+    .progress.on {
+        display: block
+    }
+
+    .pbar {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 2px;
+        width: 0;
+        transition: width .3s
+    }
+
+    .notice {
+        border-radius: 8px;
+        padding: 13px 16px;
+        font-size: 13px;
+        line-height: 1.7;
+        margin-bottom: 14px;
+        display: none
+    }
+
+    .notice.on {
+        display: block
+    }
+
+    .notice.warn {
+        background: var(--yellow-bg);
+        border: 1px solid rgba(210, 153, 34, .3);
+        color: var(--yellow)
+    }
+
+    .notice.err {
+        background: var(--red-bg);
+        border: 1px solid rgba(248, 81, 73, .3);
+        color: var(--red)
+    }
+
+    .notice.ok {
+        background: var(--green-bg);
+        border: 1px solid rgba(63, 185, 80, .3);
+        color: var(--green)
+    }
+
+    .notice.info {
+        background: var(--accent-dim);
+        border: 1px solid rgba(47, 129, 247, .3);
+        color: #7ab8f5
+    }
+
+    .notice strong {
+        font-weight: 600
+    }
+
+    .notice code {
+        background: rgba(255, 255, 255, .08);
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-family: var(--mono);
+        font-size: 12px
+    }
+
+    .cards {
+        display: none;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 16px
+    }
+
+    .cards.on {
+        display: grid
+    }
+
+    .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 14px 16px
+    }
+
+    .card-lbl {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--text-dim);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 6px
+    }
+
+    .card-val {
+        font-family: var(--mono);
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1
+    }
+
+    .c-text {
+        color:var(--text)
+    }
+
+    .c-green {
+        color:var(--green)
+    }
+
+    .c-yellow {
+        color:var(--yellow)
+    }
+
+    .c-red {
+        color: var(--red)
+    }
+
+    .tbl-wrap {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        display: none
+    }
+
+    .tbl-wrap.on {
+        display: block
+    }
+
+    .tbl-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+        gap: 8px
+    }
+
+    .tbl-title {
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--text-dim);
+        letter-spacing: .1em;
+        text-transform: uppercase
+    }
+
+    .filters {
+        display: flex;
+        gap: 6px
+    }
+
+    .fbtn {
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        color: var(--text-dim);
+        font-family: var(--mono);
+        font-size: 10px;
+        padding: 3px 10px;
+        cursor: pointer;
+        transition: all .15s
+    }
+
+    .fbtn:hover, .fbtn.active {
+        border-color: var(--accent);
+        color: var(--text);
+        background: var(--accent-dim)
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse
+    }
+
+    thead th {
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        padding: 9px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap
+    }
+
+    tbody tr {
+        border-bottom: 1px solid var(--border);
+        transition: background .1s
+    }
+
+    tbody tr:last-child {
+        border-bottom: none
+    }
+
+    tbody tr:hover {
+        background: var(--surface2)
+    }
+
+    tbody td {
+        padding: 11px 16px;
+        font-family: var(--mono);
+        font-size: 12px;
+        white-space: nowrap
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        padding: 2px 9px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-family: var(--mono)
+    }
+
+    .badge::before {
+        content: '';
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor
+    }
+
+    .badge.ok {
+        background: var(--green-bg);
+        color: var(--green)
+    }
+
+    .badge.warn {
+        background: var(--yellow-bg);
+        color: var(--yellow)
+    }
+
+    .badge.empty {
+        background: var(--red-bg);
+        color: var(--red)
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 52px 20px
+    }
+
+    .empty-icon {
+        font-size: 34px;
+        margin-bottom: 10px
+    }
+
+    .empty-title {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 5px
+    }
+
+    .empty-sub {
+        color: var(--text-dim);
+        font-size: 13px;
+        line-height: 1.6
+    }
+
+    @media (max-width: 600px) {
+        .fields {
+            grid-template-columns:1fr
+        }
+
+        .cards {
+            grid-template-columns:repeat(2, 1fr)
+        }
+
+        .topbar {
+            padding:0 14px
+        }
+
+        .wrap {
+            padding: 16px 12px
+        }
+    }
+    </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="logo">ФБО <span>/ Ozon Seller</span></div>
-  <div class="ts" id="ts">—</div>
-</div>
-<div class="wrap">
-
-  <div class="panel">
-    <div class="panel-label">Настройки</div>
-    <div class="fields">
-      <div class="field">
-        <label>Client-ID</label>
-        <input type="text" id="cid" placeholder="123456" autocomplete="off">
-      </div>
-      <div class="field">
-        <label>API-Key</label>
-        <input type="password" id="akey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off">
-      </div>
-      <div class="field" style="grid-column:1/-1">
-        <label>Адрес вашего сервера (Render URL)</label>
-        <input type="text" id="proxyUrl" class="wide" placeholder="https://ozon-fbo-proxy.onrender.com" autocomplete="off">
-      </div>
+    <div class="topbar">
+        <div class="logo">
+            ФБО 
+            <span>/ Ozon Seller</span>
+        </div>
+        <div class="ts" id="ts">—</div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="btnFetch" onclick="doFetch()">
-        <div class="spinner"></div>
-        <span class="lbl">▶&nbsp; Получить остатки</span>
-      </button>
-      <button class="btn btn-ghost" onclick="clearKeys()">Очистить</button>
+    <div class="wrap">
+
+        <div class="panel">
+            <div class="panel-label">Настройки</div>
+            <div class="fields">
+                <div class="field">
+                    <label>Client-ID</label>
+                    <input type="text" id="cid" placeholder="123456" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label>API-Key</label>
+                    <input type="password" id="akey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off">
+                </div>
+                <div class="field" style="grid-column:1/-1">
+                    <label>Адрес вашего сервера (Render URL)</label>
+                    <input type="text" id="proxyUrl" class="wide" placeholder="https://ozon-fbo-proxy.onrender.com" autocomplete="off">
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-primary" id="btnFetch" onclick="doFetch()">
+                    <div class="spinner"></div>
+                    <span class="lbl">▶&nbsp; Получить остатки</span>
+                </button>
+                <button class="btn btn-ghost" onclick="clearKeys()">Очистить</button>
+            </div>
+            <div class="progress" id="prog">
+                <div class="pbar" id="pbar"></div>
+            </div>
+        </div>
+
+        <div class="notice warn" id="nWarn"></div>
+        <div class="notice err" id="nErr"></div>
+        <div class="notice ok" id="nOk"></div>
+        <div class="notice info" id="nInfo"></div>
+
+        <div class="cards" id="cards">
+            <div class="card">
+                <div class="card-lbl">Всего позиций</div>
+                <div class="card-val c-text" id="cTotal">—</div>
+            </div>
+            <div class="card">
+                <div class="card-lbl">В норме</div>
+                <div class="card-val c-green" id="cOk">—</div>
+            </div>
+            <div class="card">
+                <div class="card-lbl">Заканчивается</div>
+                <div class="card-val c-yellow" id="cWarn">—</div>
+            </div>
+            <div class="card">
+                <div class="card-lbl">Нет остатка</div>
+                <div class="card-val c-red" id="cBad">—</div>
+            </div>
+        </div>
+
+        <div class="tbl-wrap" id="tblWrap">
+            <div class="tbl-top">
+                <div class="tbl-title" id="tblTitle">Остатки по складам</div>
+                <div class="filters">
+                    <button class="fbtn active" onclick="setFilter('all',this)">Все</button>
+                    <button class="fbtn" onclick="setFilter('warn',this)">⚠ Мало</button>
+                    <button class="fbtn" onclick="setFilter('empty',this)">⛔ Нет</button>
+                </div>
+            </div>
+            <div id="tblInner">
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+                    <div class="empty-title">Введите данные и нажмите кнопку</div>
+                    <div class="empty-sub">Данные загрузятся прямо здесь</div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="progress" id="prog"><div class="pbar" id="pbar"></div></div>
-  </div>
+    <script>
+    const MIN_STOCK = 12;
+    let allRows = [],
+        activeFilter = 'all';
 
-  <div class="notice warn" id="nWarn"></div>
-  <div class="notice err"  id="nErr"></div>
-  <div class="notice ok"   id="nOk"></div>
-  <div class="notice info" id="nInfo"></div>
+    window.addEventListener('DOMContentLoaded', () => {
+        try {
+            const c = localStorage.getItem('oz_cid'),
+                a = localStorage.getItem('oz_ak'),
+                p = localStorage.getItem('oz_proxy');
+            if (c)
+                document.getElementById('cid').value = c;
+            if (a)
+                document.getElementById('akey').value = a;
+            if (p)
+                document.getElementById('proxyUrl').value = p;
+        } catch (e) {}
+        tick();
+        setInterval(tick, 1000);
+    });
 
-  <div class="cards" id="cards">
-    <div class="card"><div class="card-lbl">Всего позиций</div><div class="card-val c-text" id="cTotal">—</div></div>
-    <div class="card"><div class="card-lbl">В норме</div><div class="card-val c-green" id="cOk">—</div></div>
-    <div class="card"><div class="card-lbl">Заканчивается</div><div class="card-val c-yellow" id="cWarn">—</div></div>
-    <div class="card"><div class="card-lbl">Нет остатка</div><div class="card-val c-red" id="cBad">—</div></div>
-  </div>
-
-  <div class="tbl-wrap" id="tblWrap">
-    <div class="tbl-top">
-      <div class="tbl-title" id="tblTitle">Остатки по складам</div>
-      <div class="filters">
-        <button class="fbtn active" onclick="setFilter('all',this)">Все</button>
-        <button class="fbtn" onclick="setFilter('warn',this)">⚠ Мало</button>
-        <button class="fbtn" onclick="setFilter('empty',this)">⛔ Нет</button>
-      </div>
-    </div>
-    <div id="tblInner">
-      <div class="empty-state">
-        <div class="empty-icon">📦</div>
-        <div class="empty-title">Введите данные и нажмите кнопку</div>
-        <div class="empty-sub">Данные загрузятся прямо здесь</div>
-      </div>
-    </div>
-  </div>
-
-</div>
-<script>
-const MIN_STOCK = 12;
-let allRows = [], activeFilter = 'all';
-
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    const c=localStorage.getItem('oz_cid'),a=localStorage.getItem('oz_ak'),p=localStorage.getItem('oz_proxy');
-    if(c) document.getElementById('cid').value=c;
-    if(a) document.getElementById('akey').value=a;
-    if(p) document.getElementById('proxyUrl').value=p;
-  } catch(e){}
-  tick(); setInterval(tick,1000);
-});
-
-function tick(){
-  const n=new Date();
-  document.getElementById('ts').textContent=
-    n.toLocaleDateString('ru-RU')+'  '+
-    n.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-}
-
-function notice(type,html){
-  ['Warn','Err','Ok','Info'].forEach(t=>{
-    const el=document.getElementById('n'+t);
-    if(t.toLowerCase()===type){el.innerHTML=html;el.classList.add('on');}
-    else el.classList.remove('on');
-  });
-}
-function clearNotices(){['Warn','Err','Ok','Info'].forEach(t=>document.getElementById('n'+t).classList.remove('on'));}
-
-function prog(pct){
-  const el=document.getElementById('prog'),bar=document.getElementById('pbar');
-  if(pct===null){el.classList.remove('on');bar.style.width='0%';return;}
-  el.classList.add('on');bar.style.width=pct+'%';
-}
-
-async function callProxy(proxy, cid, akey, endpoint, payload){
-  const resp = await fetch(proxy.replace(/\/$/,'')+'/proxy', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({client_id:cid, api_key:akey, endpoint, payload})
-  });
-  const raw = await resp.text();
-  if(!resp.ok) throw new Error(resp.status+' '+raw.slice(0,300));
-  return JSON.parse(raw);
-}
-
-async function doFetch(){
-  const cid   = document.getElementById('cid').value.trim();
-  const akey  = document.getElementById('akey').value.trim();
-  const proxy = document.getElementById('proxyUrl').value.trim();
-
-  if(!cid||!akey){ notice('warn','<strong>Заполните Client-ID и API-Key</strong>'); return; }
-  if(!proxy){ notice('warn','<strong>Укажите адрес сервера (Render URL)</strong><br>Он будет вида: <code>https://ozon-fbo-proxy.onrender.com</code>'); return; }
-
-  try{localStorage.setItem('oz_cid',cid);localStorage.setItem('oz_ak',akey);localStorage.setItem('oz_proxy',proxy);}catch(e){}
-
-  const btn=document.getElementById('btnFetch');
-  btn.disabled=true;btn.classList.add('loading');
-  clearNotices();
-  document.getElementById('cards').classList.remove('on');
-  document.getElementById('tblWrap').classList.remove('on');
-  prog(5);
-
-  try{
-    notice('info','⏳ Шаг 1/2 — получаю список товаров...');
-    const productIds = await getProductIds(proxy, cid, akey);
-    prog(40);
-
-    if(productIds.length===0){
-      prog(null);
-      notice('warn','<strong>Товары не найдены.</strong> Проверьте ключи или наличие товаров в кабинете.');
-      return;
-    }
-
-    notice('info','⏳ Шаг 2/2 — получаю остатки для '+productIds.length+' товаров...');
-    const rows = await getStocks(proxy, cid, akey, productIds);
-    prog(95);
-
-    allRows=rows;
-    renderCards(rows);
-    renderTable(rows);
-    prog(null);
-    document.getElementById('cards').classList.add('on');
-    document.getElementById('tblWrap').classList.add('on');
-
-    if(rows.length===0){
-      notice('warn',
-        '<strong>Товары найдены ('+productIds.length+' шт.), но остатков ФБО нет.</strong><br>'+
-        'Скорее всего товары работают по схеме FBS. Напишите мне — переделаю.'
-      );
-    } else {
-      notice('ok','✅ Готово! Позиций на складах ФБО: <strong>'+rows.length+'</strong>');
-    }
-
-  } catch(e){
-    prog(null);
-    const m=e.message||'';
-    if(m.includes('Failed to fetch')||m.includes('NetworkError')){
-      notice('err',
-        '<strong>Не удалось подключиться к серверу.</strong><br>'+
-        'Проверьте что URL сервера введён правильно и сервер запущен на Render.<br>'+
-        'URL должен быть вида: <code>https://ozon-fbo-proxy.onrender.com</code>'
-      );
-    } else if(m.includes('401')){
-      notice('err','<strong>Ошибка 401 — неверные ключи.</strong> Проверьте Client-ID и API-Key в кабинете Ozon.');
-    } else if(m.includes('403')){
-      notice('err','<strong>Ошибка 403 — нет прав.</strong> Создайте ключ с ролью Admin.');
-    } else {
-      notice('err','<strong>Ошибка:</strong> '+esc(m.slice(0,300)));
-    }
-  } finally{
-    btn.disabled=false;btn.classList.remove('loading');
-  }
-}
-
-async function getProductIds(proxy, cid, akey){
-  let ids=[], lastId='', hasMore=true;
-  while(hasMore){
-    const data = await callProxy(proxy, cid, akey, '/v2/product/list',
-      {filter:{visibility:'ALL'}, last_id:lastId, limit:1000});
-    const items=data?.result?.items||[];
-    ids=ids.concat(items.map(i=>i.product_id).filter(Boolean));
-    lastId=data?.result?.last_id||'';
-    hasMore=items.length===1000&&!!lastId;
-    prog(5+Math.min(30,ids.length/5));
-  }
-  return ids;
-}
-
-async function getStocks(proxy, cid, akey, allIds){
-  const rows=[];
-  const total=allIds.length;
-  for(let i=0;i<total;i+=100){
-    const batch=allIds.slice(i,i+100);
-    const data = await callProxy(proxy, cid, akey, '/v3/product/info/stocks',
-      {filter:{product_id:batch, visibility:'ALL'}, last_id:'', limit:100});
-    for(const item of (data?.result?.items||[])){
-      for(const s of (item.stocks||[])){
-        if(s.type!=='fbo') continue;
-        rows.push({
-          offer_id: item.offer_id||String(item.product_id||''),
-          warehouse: s.warehouse_name||'—',
-          present:  s.present||0,
-          reserved: s.reserved||0,
+    function tick() {
+        const n = new Date();
+        document.getElementById('ts').textContent =
+        n.toLocaleDateString('ru-RU') + '  ' +
+        n.toLocaleTimeString('ru-RU', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
         });
-      }
     }
-    prog(40+Math.round((i+batch.length)/total*55));
-  }
-  rows.sort((a,b)=>{
-    const sa=a.present===0?0:a.present<MIN_STOCK?1:2;
-    const sb=b.present===0?0:b.present<MIN_STOCK?1:2;
-    return sa!==sb?sa-sb:a.offer_id.localeCompare(b.offer_id);
-  });
-  return rows;
-}
 
-function renderCards(rows){
-  document.getElementById('cTotal').textContent=rows.length;
-  document.getElementById('cOk').textContent=rows.filter(r=>r.present>=MIN_STOCK).length;
-  document.getElementById('cWarn').textContent=rows.filter(r=>r.present>0&&r.present<MIN_STOCK).length;
-  document.getElementById('cBad').textContent=rows.filter(r=>r.present===0).length;
-}
+    function notice(type, html) {
+        ['Warn', 'Err', 'Ok', 'Info'].forEach(t => {
+            const el = document.getElementById('n' + t);
+            if (t.toLowerCase() === type) {
+                el.innerHTML = html;
+                el.classList.add('on');
+            }
+            else
+                el.classList.remove('on');
+        });
+    }
+    function clearNotices() {
+        ['Warn', 'Err', 'Ok', 'Info'].forEach(t => document.getElementById('n' + t).classList.remove('on'));
+    }
 
-function setFilter(f,btn){
-  activeFilter=f;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderTable(allRows);
-}
+    function prog(pct) {
+        const el = document.getElementById('prog'),
+            bar = document.getElementById('pbar');
+        if (pct === null) {
+            el.classList.remove('on');
+            bar.style.width = '0%';
+            return;
+        }
+        el.classList.add('on');
+        bar.style.width = pct + '%';
+    }
 
-function renderTable(rows){
-  const filtered=activeFilter==='all'?rows
-    :activeFilter==='warn'?rows.filter(r=>r.present>0&&r.present<MIN_STOCK)
-    :rows.filter(r=>r.present===0);
-  document.getElementById('tblTitle').textContent=
-    activeFilter==='all'?'Все позиции ('+filtered.length+')'
-    :activeFilter==='warn'?'Заканчивается ('+filtered.length+')'
-    :'Нет остатка ('+filtered.length+')';
-  if(!filtered.length){
-    document.getElementById('tblInner').innerHTML='<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-title">Таких позиций нет</div></div>';
-    return;
-  }
-  let html='<table><thead><tr><th>Артикул</th><th>Склад</th><th>Доступно</th><th>Резерв</th><th>Статус</th></tr></thead><tbody>';
-  for(const r of filtered){
-    const isEmpty=r.present===0,isWarn=r.present>0&&r.present<MIN_STOCK;
-    const cls=isEmpty?'empty':isWarn?'warn':'ok';
-    const lbl=isEmpty?'Нет':isWarn?'Мало':'OK';
-    const color=isEmpty?'var(--red)':isWarn?'var(--yellow)':'var(--green)';
-    const wh=esc(r.warehouse);
-    html+=`<tr>
-      <td style="color:var(--text);font-weight:500;font-family:var(--mono)">${esc(r.offer_id)}</td>
-      <td style="color:var(--text-dim);font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis" title="${wh}">${wh.replace(/,.*/,'')}</td>
-      <td style="font-family:var(--mono);font-weight:600;color:${color}">${r.present}</td>
-      <td style="font-family:var(--mono);color:var(--text-dim)">${r.reserved}</td>
-      <td><span class="badge ${cls}">${lbl}</span></td>
-    </tr>`;
-  }
-  html+='</tbody></table>';
-  document.getElementById('tblInner').innerHTML=html;
-}
+    async function callProxy(proxy, cid, akey, endpoint, payload) {
+        const resp = await fetch(proxy.replace(/\/$/, '') + '/proxy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                client_id: cid,
+                api_key: akey,
+                endpoint,
+                payload
+            })
+        });
+        const raw = await resp.text();
+        if (!resp.ok)
+            throw new Error(resp.status + ' ' + raw.slice(0, 300));
+        return JSON.parse(raw);
+    }
 
-function clearKeys(){
-  ['cid','akey','proxyUrl'].forEach(id=>document.getElementById(id).value='');
-  try{['oz_cid','oz_ak','oz_proxy'].forEach(k=>localStorage.removeItem(k));}catch(e){}
-  clearNotices();
-}
+    async function doFetch() {
+        const cid = document.getElementById('cid').value.trim();
+        const akey = document.getElementById('akey').value.trim();
+        const proxy = document.getElementById('proxyUrl').value.trim();
 
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-</script>
+        if (!cid || !akey) {
+            notice('warn', '<strong>Заполните Client-ID и API-Key</strong>');
+            return;
+        }
+        if (!proxy) {
+            notice('warn', '<strong>Укажите адрес сервера (Render URL)</strong><br>Он будет вида: <code>https://ozon-fbo-proxy.onrender.com</code>');
+            return;
+        }
+
+        try {
+            localStorage.setItem('oz_cid', cid);
+            localStorage.setItem('oz_ak', akey);
+            localStorage.setItem('oz_proxy', proxy);
+        } catch (e) {}
+
+        const btn = document.getElementById('btnFetch');
+        btn.disabled = true;
+        btn.classList.add('loading');
+        clearNotices();
+        document.getElementById('cards').classList.remove('on');
+        document.getElementById('tblWrap').classList.remove('on');
+        prog(5);
+
+        try {
+            notice('info', '⏳ Шаг 1/2 — получаю список товаров...');
+            const productIds = await getProductIds(proxy, cid, akey);
+            prog(40);
+
+            if (productIds.length === 0) {
+                prog(null);
+                notice('warn', '<strong>Товары не найдены.</strong> Проверьте ключи или наличие товаров в кабинете.');
+                return;
+            }
+
+            notice('info', '⏳ Шаг 2/2 — получаю остатки для ' + productIds.length + ' товаров...');
+            const rows = await getStocks(proxy, cid, akey, productIds);
+            prog(95);
+
+            allRows = rows;
+            renderCards(rows);
+            renderTable(rows);
+            prog(null);
+            document.getElementById('cards').classList.add('on');
+            document.getElementById('tblWrap').classList.add('on');
+
+            if (rows.length === 0) {
+                notice('warn',
+                '<strong>Товары найдены (' + productIds.length + ' шт.), но остатков ФБО нет.</strong><br>' +
+                'Скорее всего товары работают по схеме FBS. Напишите мне — переделаю.'
+                );
+            } else {
+                notice('ok', '✅ Готово! Позиций на складах ФБО: <strong>' + rows.length + '</strong>');
+            }
+
+        } catch (e) {
+            prog(null);
+            const m = e.message || '';
+            if (m.includes('Failed to fetch') || m.includes('NetworkError')) {
+                notice('err',
+                '<strong>Не удалось подключиться к серверу.</strong><br>' +
+                'Проверьте что URL сервера введён правильно и сервер запущен на Render.<br>' +
+                'URL должен быть вида: <code>https://ozon-fbo-proxy.onrender.com</code>'
+                );
+            } else if (m.includes('401')) {
+                notice('err', '<strong>Ошибка 401 — неверные ключи.</strong> Проверьте Client-ID и API-Key в кабинете Ozon.');
+            } else if (m.includes('403')) {
+                notice('err', '<strong>Ошибка 403 — нет прав.</strong> Создайте ключ с ролью Admin.');
+            } else {
+                notice('err', '<strong>Ошибка:</strong> ' + esc(m.slice(0, 300)));
+            }
+        } finally {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+        }
+    }
+
+    async function getProductIds(proxy, cid, akey) {
+        let ids = [],
+            lastId = '',
+            hasMore = true;
+        while (hasMore) {
+            const data = await callProxy(proxy, cid, akey, '/v3/product/list',
+            {
+                filter: {
+                    visibility: 'ALL'
+                },
+                last_id: lastId,
+                limit: 1000
+            });
+            const items = data?.result?.items || [];
+            ids = ids.concat(items.map(i => i.product_id).filter(Boolean));
+            lastId = data?.result?.last_id || '';
+            hasMore = items.length === 1000 && !!lastId;
+            prog(5 + Math.min(30, ids.length / 5));
+        }
+        return ids;
+    }
+
+    async function getStocks(proxy, cid, akey, allIds) {
+        const rows = [];
+        const total = allIds.length;
+        for (let i = 0; i < total; i += 100) {
+            const batch = allIds.slice(i, i + 100);
+            const data = await callProxy(proxy, cid, akey, '/v3/product/info/stocks',
+            {
+                filter: {
+                    product_id: batch,
+                    visibility: 'ALL'
+                },
+                last_id: '',
+                limit: 100
+            });
+            for (const item of (data?.result?.items || [])) {
+                for (const s of (item.stocks || [])) {
+                    if (s.type !== 'fbo')
+                        continue;
+                    rows.push({
+                        offer_id: item.offer_id || String(item.product_id || ''),
+                        warehouse: s.warehouse_name || '—',
+                        present: s.present || 0,
+                        reserved: s.reserved || 0,
+                    });
+                }
+            }
+            prog(40 + Math.round((i + batch.length) / total * 55));
+        }
+        rows.sort((a, b) => {
+            const sa = a.present === 0 ? 0 : a.present < MIN_STOCK ? 1 : 2;
+            const sb = b.present === 0 ? 0 : b.present < MIN_STOCK ? 1 : 2;
+            return sa !== sb ? sa - sb : a.offer_id.localeCompare(b.offer_id);
+        });
+        return rows;
+    }
+
+    function renderCards(rows) {
+        document.getElementById('cTotal').textContent = rows.length;
+        document.getElementById('cOk').textContent = rows.filter(r => r.present >= MIN_STOCK).length;
+        document.getElementById('cWarn').textContent = rows.filter(r => r.present > 0 && r.present < MIN_STOCK).length;
+        document.getElementById('cBad').textContent = rows.filter(r => r.present === 0).length;
+    }
+
+    function setFilter(f, btn) {
+        activeFilter = f;
+        document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderTable(allRows);
+    }
+
+    function renderTable(rows) {
+        const filtered = activeFilter === 'all' ? rows
+        : activeFilter === 'warn' ? rows.filter(r => r.present > 0 && r.present < MIN_STOCK)
+        : rows.filter(r => r.present === 0);
+        document.getElementById('tblTitle').textContent =
+        activeFilter === 'all' ? 'Все позиции (' + filtered.length + ')'
+        : activeFilter === 'warn' ? 'Заканчивается (' + filtered.length + ')'
+        : 'Нет остатка (' + filtered.length + ')';
+        if (!filtered.length) {
+            document.getElementById('tblInner').innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-title">Таких позиций нет</div></div>';
+            return;
+        }
+        let html = '<table><thead><tr><th>Артикул</th><th>Склад</th><th>Доступно</th><th>Резерв</th><th>Статус</th></tr></thead><tbody>';
+        for (const r of filtered) {
+            const isEmpty = r.present === 0,
+                isWarn = r.present > 0 && r.present < MIN_STOCK;
+            const cls = isEmpty ? 'empty' : isWarn ? 'warn' : 'ok';
+            const lbl = isEmpty ? 'Нет' : isWarn ? 'Мало' : 'OK';
+            const color = isEmpty ? 'var(--red)' : isWarn ? 'var(--yellow)' : 'var(--green)';
+            const wh = esc(r.warehouse);
+            html += `<tr>
+                  <td style="color:var(--text);font-weight:500;font-family:var(--mono)">${esc(r.offer_id)}</td>
+                  <td style="color:var(--text-dim);font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis" title="${wh}">${wh.replace(/,.*/, '')}</td>
+                  <td style="font-family:var(--mono);font-weight:600;color:${color}">${r.present}</td>
+                  <td style="font-family:var(--mono);color:var(--text-dim)">${r.reserved}</td>
+                  <td><span class="badge ${cls}">${lbl}</span></td>
+                </tr>`;
+        }
+        html += '</tbody></table>';
+        document.getElementById('tblInner').innerHTML = html;
+    }
+
+    function clearKeys() {
+        ['cid', 'akey', 'proxyUrl'].forEach(id => document.getElementById(id).value = '');
+        try {
+            ['oz_cid', 'oz_ak', 'oz_proxy'].forEach(k => localStorage.removeItem(k));
+        } catch (e) {}
+        clearNotices();
+    }
+
+    function esc(s) {
+        return String(s).replace(/[&<>"']/g, c => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[c]));
+    }
+    </script>
 </body>
 </html>
